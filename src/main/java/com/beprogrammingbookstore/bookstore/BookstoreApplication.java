@@ -23,11 +23,14 @@ public class BookstoreApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner() {
 		return args -> {
-			categoryRepository.save(new Category("Fiction"));
-			categoryRepository.save(new Category("Non-Fiction"));
-			categoryRepository.save(new Category("Science"));
-			categoryRepository.save(new Category("History"));
-			categoryRepository.save(new Category("Biography"));
+			Category fiction = categoryRepository.save(new Category("Fiction"));
+			Category nonFiction = categoryRepository.save(new Category("Non-Fiction"));
+			Category science = categoryRepository.save(new Category("Science"));
+			Category history = categoryRepository.save(new Category("History"));
+			Category biography = categoryRepository.save(new Category("Biography"));
+
+			bookRepository.save(new Book("Hello World", "John Lennon", "1992", "2938429357892", 16f, biography));
+
 		};
 	}
 }

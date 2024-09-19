@@ -2,7 +2,6 @@ package com.beprogrammingbookstore.bookstore.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +38,7 @@ public class BookController {
         bookRepository.deleteById(id);
         List<Book> bookList = bookRepository.findAll();
         model.addAttribute("book", bookList);
-        return "booklist";
+        return "redirect:/booklist";
     }
 
     @GetMapping("/addbook")
@@ -55,14 +54,14 @@ public class BookController {
         List<Book> bookList = bookRepository.findAll();
 
         model.addAttribute("book", bookList);
-        model.addAttribute("categories", categoryRepository.findAll());
-        return "booklist";
+        return "redirect:/booklist";
     }
 
     @GetMapping("/editbook/{id}")
     public String editBook(Model model, @PathVariable Long id) {
         Optional<Book> book = bookRepository.findById(id);
         model.addAttribute("book", book.get());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "editbook";
     }
 
@@ -76,11 +75,12 @@ public class BookController {
         oldBook.setIsbn(newBook.getIsbn());
         oldBook.setPublicYear(newBook.getPublicYear());
         oldBook.setTitle(newBook.getTitle());
+        oldBook.setCategory(newBook.getCategory());
 
         bookRepository.save(oldBook);
         List<Book> bookList = bookRepository.findAll();
         model.addAttribute("book", bookList);
-        return "booklist";
+        return "redirect:/booklist";
 
     }
 

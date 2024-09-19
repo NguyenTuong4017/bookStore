@@ -36,6 +36,18 @@
         <label for="author">Price:</label>
         <input type="text" th:field="*{price}" />
       </div>
+
+      <div>
+        <label for="category">Category: </label>
+        <select th:field="*{category.categoryId}">
+          <th:block th:each="category: ${categories}">
+            <option
+              th:value="${category.categoryId}"
+              th:text="${category.categoryName}"
+            ></option>
+          </th:block>
+        </select>
+      </div>
       <button type="submit">Submit</button>
     </form>
   </body>

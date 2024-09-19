@@ -23,12 +23,13 @@ public class Book {
 
     }
 
-    public Book(String title, String author, String publicYear, String isbn, float price) {
+    public Book(String title, String author, String publicYear, String isbn, float price, Category category) {
         this.title = title;
         this.author = author;
         this.publicYear = publicYear;
         this.isbn = isbn;
         this.price = price;
+        this.category = category;
     }
 
     public long getId() {
