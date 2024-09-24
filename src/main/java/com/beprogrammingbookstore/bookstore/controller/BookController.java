@@ -65,7 +65,7 @@ public class BookController {
         return "editbook";
     }
 
-    @PostMapping("/saveNewData/{id}")
+    @PostMapping("/saveNewData/id={id}")
     public String saveOldBook(@ModelAttribute Book newBook, Model model, @PathVariable Long id) {
         Optional<Book> book = bookRepository.findById(id);
         Book oldBook = book.get();
