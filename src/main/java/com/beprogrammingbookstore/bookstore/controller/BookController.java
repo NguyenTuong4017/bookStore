@@ -1,9 +1,11 @@
 package com.beprogrammingbookstore.bookstore.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class BookController {
@@ -26,14 +29,16 @@ public class BookController {
     private CategoryRepository categoryRepository;
 
     @GetMapping("/booklist")
-    public String showBooks(Model model) {
+    public String showBooks(Model model, Principal principal) {
         List<Book> bookList = bookRepository.findAll();
         model.addAttribute("book", bookList);
+        model.addAttribute("username", principal.getName());
         model.addAttribute("categories", categoryRepository.findAll());
         return "booklist";
     }
 
     @GetMapping("/book/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteBook(@PathVariable Long id, Model model) {
         bookRepository.deleteById(id);
         List<Book> bookList = bookRepository.findAll();
@@ -82,6 +87,11 @@ public class BookController {
         model.addAttribute("book", bookList);
         return "redirect:/booklist";
 
+    }
+
+    @RequestMapping(value = "/login")
+    public String login() {
+        return "login";
     }
 
 }

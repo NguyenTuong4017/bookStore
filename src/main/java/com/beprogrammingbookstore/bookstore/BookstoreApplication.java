@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.beprogrammingbookstore.bookstore.entity.*;
 
@@ -16,12 +17,16 @@ public class BookstoreApplication {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	@Autowired
+	UserRepository userRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 
 	@Bean
 	public CommandLineRunner commandLineRunner() {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		return args -> {
 			Category fiction = categoryRepository.save(new Category("Fiction"));
 			Category nonFiction = categoryRepository.save(new Category("Non-Fiction"));
@@ -48,6 +53,13 @@ public class BookstoreApplication {
 			bookRepository.save(
 					new Book("Breaking Boundaries", "Neil deGrasse Tyson", "2022", "3213213213210", 19.99f, science));
 
+			UserEntity user1 = new UserEntity("user", encoder.encode("user"), "user@gmail.com", "USER");
+			UserEntity user2 = new UserEntity("admin", encoder.encode("admin"), "admin@gmail.com", "ADMIN");
+
+			userRepository.save(user1);
+			userRepository.save(user2);
+
+			System.out.println("User1's password: " + user1.getPassword());
 		};
 	}
 }
