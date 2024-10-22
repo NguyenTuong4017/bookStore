@@ -24,6 +24,7 @@ public class WebSecurityConfig {
         public SecurityFilterChain configure(HttpSecurity http) throws Exception {
                 http
                                 .authorizeHttpRequests(authorize -> authorize
+                                                .requestMatchers("/h2-console/**").permitAll()
                                                 .requestMatchers("/").permitAll()
                                                 .anyRequest().authenticated())
                                 .formLogin(formlogin -> formlogin
@@ -32,6 +33,7 @@ public class WebSecurityConfig {
                                                 .permitAll())
                                 .logout(logout -> logout
                                                 .permitAll());
+
                 return http.build();
         }
 
