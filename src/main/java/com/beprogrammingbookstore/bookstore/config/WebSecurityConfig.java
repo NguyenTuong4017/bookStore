@@ -1,3 +1,4 @@
+
 package com.beprogrammingbookstore.bookstore.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,14 @@ public class WebSecurityConfig {
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .requestMatchers("/h2-console/**").permitAll()
                                                 .requestMatchers("/").permitAll()
+                                                .requestMatchers("/", "/api/books/**").permitAll()
                                                 .anyRequest().authenticated())
+
                                 .formLogin(formlogin -> formlogin
                                                 .loginPage("/login")
                                                 .defaultSuccessUrl("/booklist", true)
                                                 .permitAll())
+
                                 .logout(logout -> logout
                                                 .permitAll());
 
